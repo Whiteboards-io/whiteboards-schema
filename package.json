@@ -1,0 +1,16 @@
+{
+  "name": "@whiteboards-io/schema",
+  "version": "1.0.0",
+  "description": "Documentation for board data format for Whiteboards.io app",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Whiteboards-io/whiteboards-schema.git"
+  },
+  "author": "Whiteboards.io <support@whiteboards.team>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Whiteboards-io/whiteboards-schema/issues"
+  },
+  "homepage": "https://github.com/Whiteboards-io/whiteboards-schema#readme"
+}
