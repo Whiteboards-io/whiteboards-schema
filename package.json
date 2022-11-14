@@ -7,10 +7,18 @@
     "type": "git",
     "url": "git+https://github.com/Whiteboards-io/whiteboards-schema.git"
   },
+  "scripts": {
+    "generate-schema": "ts-json-schema-generator --path './src/schema/board.ts' --type 'Board' -o ./src/schema/schema.json",
+    "display-schema": "PORT=3001 jsonschematic --schema_dir ./src/schema"
+  },
   "author": "Whiteboards.io <support@whiteboards.team>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Whiteboards-io/whiteboards-schema/issues"
   },
-  "homepage": "https://github.com/Whiteboards-io/whiteboards-schema#readme"
+  "homepage": "https://github.com/Whiteboards-io/whiteboards-schema#readme",
+  "devDependencies": {
+    "@infinity-interactive/jsonschematic": "1.0.0-rc1",
+    "ts-json-schema-generator": "^1.1.2"
+  }
 }

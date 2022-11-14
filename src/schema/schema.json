@@ -1,0 +1,314 @@
+{
+  "$ref": "#/definitions/Board",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Board": {
+      "additionalProperties": false,
+      "properties": {
+        "blobs": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Record<string, string> - for every image card, it should map imageCard[\"dataBlob\"] -> url of the image.\nThe URL must contain \"#\" followed by its mime type, e.g. https://example.com/image.png#image/png",
+          "type": "object"
+        },
+        "cards": {
+          "additionalProperties": false,
+          "properties": {
+            "_index": {
+              "additionalProperties": {
+                "type": "boolean"
+              },
+              "description": "Record<string, AnyCard> - for every card present on the board it should map card[\"id\"] -> true",
+              "type": "object"
+            },
+            "_items": {
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Card"
+                  },
+                  {
+                    "$ref": "#/definitions/ImageCard"
+                  }
+                ]
+              },
+              "description": "Record<string, AnyCard>",
+              "type": "object"
+            }
+          },
+          "required": [
+            "_index",
+            "_items"
+          ],
+          "type": "object"
+        },
+        "lines": {
+          "additionalProperties": false,
+          "properties": {
+            "_index": {
+              "additionalProperties": {
+                "type": "boolean"
+              },
+              "description": "Record<string, boolean> - for every line present on the board it should map line[\"id\"] -> true",
+              "type": "object"
+            },
+            "_items": {
+              "additionalProperties": {
+                "$ref": "#/definitions/Line"
+              },
+              "description": "Record<string, Line>",
+              "type": "object"
+            }
+          },
+          "required": [
+            "_index",
+            "_items"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "cards",
+        "lines"
+      ],
+      "type": "object"
+    },
+    "Card": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "default": "'sticky-note-like' yellow (#FFF1AB)",
+          "type": "string"
+        },
+        "fontSize": {
+          "default": "auto",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "height": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "description": "Plain string, does not allow for HTML tags",
+          "type": "string"
+        },
+        "textColor": {
+          "default": "black (#000)",
+          "type": "string"
+        },
+        "textStyle": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CardTextStyle"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "width": {
+          "type": "number"
+        },
+        "x": {
+          "description": "x position relative to (0, 0) which is the board center",
+          "type": "number"
+        },
+        "y": {
+          "description": "y position relative to (0, 0) which is the board center",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "type": "object"
+    },
+    "CardTextStyle": {
+      "additionalProperties": false,
+      "properties": {
+        "bold": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "italic": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "strike": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "underline": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "ImageCard": {
+      "additionalProperties": false,
+      "properties": {
+        "dataBlob": {
+          "description": "If present, the image will be referenced from Board.blobs",
+          "type": "string"
+        },
+        "dataURL": {
+          "description": "If present, the image will be read from data url",
+          "type": "string"
+        },
+        "height": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "originalHeight": {
+          "description": "The original height of the image",
+          "type": "number"
+        },
+        "originalWidth": {
+          "description": "The original width of the image",
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "x": {
+          "description": "x position relative to (0, 0) which is the board center",
+          "type": "number"
+        },
+        "y": {
+          "description": "y position relative to (0, 0) which is the board center",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "type": "object"
+    },
+    "Line": {
+      "additionalProperties": false,
+      "properties": {
+        "arrowLeft": {
+          "description": "if true, will display the arrow at the start of the line",
+          "type": "boolean"
+        },
+        "arrowRight": {
+          "description": "if true, will display the arrow at the end of the line",
+          "type": "boolean"
+        },
+        "color": {
+          "type": "string"
+        },
+        "curveType": {
+          "const": "curve-catmull-rom",
+          "description": "only applicable if type is \"curve\"",
+          "type": "string"
+        },
+        "end": {
+          "additionalProperties": false,
+          "description": "end point coordinates if the line does not start at a card, relative to (0,0)",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "type": "object"
+        },
+        "endCardId": {
+          "description": "id of the card where the line starts",
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "start": {
+          "additionalProperties": false,
+          "description": "start point coordinates if the line does not start at a card, relative to (0,0)",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "type": "object"
+        },
+        "startCardId": {
+          "description": "id of the card where the line starts",
+          "type": "string"
+        },
+        "style": {
+          "default": "solid",
+          "enum": [
+            "solid",
+            "dashed",
+            "dotted"
+          ],
+          "type": "string"
+        },
+        "text": {
+          "description": "the text that appears above the line",
+          "type": "string"
+        },
+        "thickness": {
+          "default": 2,
+          "maximum": 20,
+          "minimum": 1,
+          "type": "number"
+        },
+        "type": {
+          "enum": [
+            "line",
+            "step",
+            "stepBefore",
+            "stepAfter",
+            "curve"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "color",
+        "type"
+      ],
+      "type": "object"
+    }
+  }
+}
