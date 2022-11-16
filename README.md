@@ -137,12 +137,12 @@ Sample "non-whiteboards.io" board:
   {
     "id": 111,
     "type": "sticky",
-    "...": "other props omitted for readability"
+    "otherProps": "omitted for readability"
   },
   {
     "id": 567,
     "type": "sticky",
-    "...": "other props omitted for readability"
+    "otherProps": "omitted for readability"
   },
   {
     "id": 222,
@@ -176,12 +176,19 @@ After conversion to Whiteboards.io schema:
       "111": {
         "id": "111",
         "text": "Card text",
-        "...": "other props omitted for readability"
+        "x": 100,
+        "y": 200,
+        "width": 400,
+        "height": 200,
+        "color": "#ccc"
       },
       "567": {
         "id": "567",
         "text": "Foo",
-        "...": "other props omitted for readability"
+        "x": -10,
+        "y": -50,
+        "width": 150,
+        "height": 300
       }
     }
   },
@@ -282,7 +289,6 @@ After conversion to Whiteboards.io schema:
     "_items": {
       "777": {
         "id": "777",
-        "text": "Card text",
         "x": 100,
         "y": 200,
         "width": 400,
@@ -296,8 +302,62 @@ After conversion to Whiteboards.io schema:
     "_items": {}
   },
   "blobs": {
-    "someUniqueBlobId-777": "hxxp://example.com/image.png#image/png"
+    "someUniqueBlobId-777": "https://picsum.photos/400/200#image/jpg"
   }
+}
+```
+
+### Text
+Sample "non-whiteboards.io" board:
+
+```json
+[
+  {
+    "id": 789,
+    "type": "text",
+    "contents": "<p>Card text</p>",
+    "position": {
+      "x": 100,
+      "y": 200
+    },
+    "dimensions": {
+      "width": 400,
+      "height": 200
+    },
+    "bold": true,
+    "underline": true
+  }
+]
+```
+After conversion to Whiteboards.io schema:
+
+```json
+{
+  "cards": {
+    "_index": {
+      "789": true
+    },
+    "_items": {
+      "789": {
+        "id": "789",
+        "text": "Card text",
+        "x": 100,
+        "y": 200,
+        "width": 400,
+        "height": 200,
+        "textOnly": true,
+        "textStyle": {
+          "bold": true,
+          "underline": true
+        }
+      }
+    }
+  },
+  "lines": {
+    "_index": {},
+    "_items": {}
+  },
+  "blobs": {}
 }
 ```
 

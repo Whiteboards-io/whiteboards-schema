@@ -1,8 +1,9 @@
 import { Card } from "./card";
 import { Line } from "./line";
-import {ImageCard} from "./image-card";
+import { ImageCard } from "./image-card";
+import { Text } from "./text";
 
-type AnyCard = Card | ImageCard;
+type AnyCard = Card | ImageCard | Text;
 
 export type Board = {
     cards: {

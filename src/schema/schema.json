@@ -30,6 +30,9 @@
                   },
                   {
                     "$ref": "#/definitions/ImageCard"
+                  },
+                  {
+                    "$ref": "#/definitions/Text"
                   }
                 ]
               },
@@ -78,11 +81,12 @@
       "additionalProperties": false,
       "properties": {
         "color": {
-          "default": "'sticky-note-like' yellow (#FFF1AB)",
+          "default": "the unique color assigned to the current user",
+          "description": "the background color of the card. If you're looking for our 'sticky-note-like' yellow, it's #FFF1AB",
           "type": "string"
         },
         "fontSize": {
-          "default": "auto",
+          "default": "null (which means auto)",
           "type": [
             "number",
             "null"
@@ -98,6 +102,11 @@
           "description": "Plain string, does not allow for HTML tags",
           "type": "string"
         },
+        "textAlign": {
+          "$ref": "#/definitions/TextAlign",
+          "default": 0,
+          "description": "0 = center, 1 = left, 2 = right"
+        },
         "textColor": {
           "default": "black (#000)",
           "type": "string"
@@ -111,6 +120,11 @@
               "type": "null"
             }
           ]
+        },
+        "textVerticalAlign": {
+          "$ref": "#/definitions/TextVerticalAlign",
+          "default": 0,
+          "description": "0 = middle, 1 = left, 2 = right"
         },
         "width": {
           "type": "number"
@@ -309,6 +323,97 @@
         "type"
       ],
       "type": "object"
+    },
+    "Text": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "default": "the unique color assigned to the current user",
+          "description": "the background color of the card. If you're looking for our 'sticky-note-like' yellow, it's #FFF1AB",
+          "type": "string"
+        },
+        "fontSize": {
+          "default": "null (which means auto)",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "height": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "description": "Plain string, does not allow for HTML tags",
+          "type": "string"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/TextAlign",
+          "default": 0,
+          "description": "0 = center, 1 = left, 2 = right"
+        },
+        "textColor": {
+          "default": "black (#000)",
+          "type": "string"
+        },
+        "textOnly": {
+          "description": "\"Text\" under the hood is just a regular card, but it has this additional property to ensure some effects are disabled",
+          "type": "boolean"
+        },
+        "textStyle": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CardTextStyle"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "textVerticalAlign": {
+          "$ref": "#/definitions/TextVerticalAlign",
+          "default": 0,
+          "description": "0 = middle, 1 = left, 2 = right"
+        },
+        "width": {
+          "type": "number"
+        },
+        "x": {
+          "description": "x position relative to (0, 0) which is the board center",
+          "type": "number"
+        },
+        "y": {
+          "description": "y position relative to (0, 0) which is the board center",
+          "type": "number"
+        }
+      },
+      "required": [
+        "height",
+        "id",
+        "textOnly",
+        "width",
+        "x",
+        "y"
+      ],
+      "type": "object"
+    },
+    "TextAlign": {
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "type": "number"
+    },
+    "TextVerticalAlign": {
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "type": "number"
     }
   }
 }

@@ -11,7 +11,8 @@ export type Card = {
     width: number;
     height: number;
     /**
-     * @default 'sticky-note-like' yellow (#FFF1AB)
+     * @description the background color of the card. If you're looking for our 'sticky-note-like' yellow, it's #FFF1AB
+     * @default the unique color assigned to the current user
      */
     color?: string;
     /**
@@ -24,10 +25,32 @@ export type Card = {
      */
     text?: string;
     /**
-     * @default auto
+     * @default null (which means auto)
      */
     fontSize?: number | null;
-};
+    /**
+     * @default 0
+     * @description 0 = center, 1 = left, 2 = right
+     */
+    textAlign?: TextAlign;
+    /**
+     * @default 0
+     * @description 0 = middle, 1 = left, 2 = right
+     */
+    textVerticalAlign?: TextVerticalAlign;
+}
+
+export enum TextAlign {
+    CENTER = 0,
+    LEFT = 1,
+    RIGHT = 2
+}
+
+export enum TextVerticalAlign {
+    MIDDLE = 0,
+    TOP = 1,
+    BOTTOM = 2
+}
 
 export type CardTextStyle = {
     bold?: boolean | null | undefined;
