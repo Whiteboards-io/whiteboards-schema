@@ -1,9 +1,6 @@
-import { Card } from "./card";
-import { Line } from "./line";
-import { ImageCard } from "./image-card";
-import { Text } from "./text";
+import { Card, ImageCard, Text, Line, GithubIssue, JiraIssue } from "./";
 
-type AnyCard = Card | ImageCard | Text;
+type AnyCard = Card | ImageCard | Text | GithubIssue | JiraIssue;
 
 export type Board = {
     cards: {

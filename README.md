@@ -361,6 +361,110 @@ After conversion to Whiteboards.io schema:
 }
 ```
 
+### Github Issues
+Sample "non-whiteboards.io" board:
+
+```json
+[
+  {
+    "id": 111,
+    "type": "github",
+    "issue_id": 32,
+    "title": "Github issue",
+    "author": "user_name",
+    "repository": "repository_name",
+    "position": {
+      "x": 100,
+      "y": 200
+    },
+    "dimensions": {
+      "width": 400,
+      "height": 200
+    }
+  }
+]
+```
+After conversion to Whiteboards.io schema:
+```json
+{
+  "cards": {
+    "_index": {
+      "111": true
+    },
+    "_items": {
+      "111": {
+        "id": "111",
+        "githubIssueKey": {
+          "issue_number": 32,
+          "owner": "user_name",
+          "repo": "repository_name",
+          "title": "Github issue"
+        },
+        "x": 100,
+        "y": 200,
+        "width": 400,
+        "height": 200
+      }
+    }
+  },
+  "lines": {
+    "_index": {},
+    "_items": {}
+  },
+  "blobs": {}
+}
+```
+
+### Jira Issues
+Sample "non-whiteboards.io" board:
+
+```json
+[
+  {
+    "id": 111,
+    "type": "jira",
+    "issue_id": 10305,
+    "site_id": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
+    "author": "user_name",
+    "repository": "repository_name",
+    "position": {
+      "x": 100,
+      "y": 200
+    },
+    "dimensions": {
+      "width": 400,
+      "height": 200
+    }
+  }
+]
+```
+After conversion to Whiteboards.io schema:
+```json
+{
+  "cards": {
+    "_index": {
+      "111": true
+    },
+    "_items": {
+      "111": {
+        "id": "111",
+        "issueId": "10305",
+        "siteId": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
+        "x": 100,
+        "y": 200,
+        "width": 400,
+        "height": 200
+      }
+    }
+  },
+  "lines": {
+    "_index": {},
+    "_items": {}
+  },
+  "blobs": {}
+}
+```
+
 ## Summary
 
 We hope that using those simple examples (and the schema for the things that haven't been referenced there) you will be

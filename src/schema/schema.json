@@ -19,7 +19,7 @@
               "additionalProperties": {
                 "type": "boolean"
               },
-              "description": "Record<string, AnyCard> - for every card present on the board it should map card[\"id\"] -> true",
+              "description": "Record<string, boolean> - for every card present on the board it should map card[\"id\"] -> true",
               "type": "object"
             },
             "_items": {
@@ -33,6 +33,12 @@
                   },
                   {
                     "$ref": "#/definitions/Text"
+                  },
+                  {
+                    "$ref": "#/definitions/GithubIssue"
+                  },
+                  {
+                    "$ref": "#/definitions/JiraIssue"
                   }
                 ]
               },
