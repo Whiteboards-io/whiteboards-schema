@@ -1,6 +1,8 @@
-import { Card, ImageCard, Text, Line, GithubIssue, JiraIssue } from "./";
+import {Card, ImageCard, Text, Line, GithubIssue, JiraIssue, JiraIssueLink, ShapeCard, FreeDraw} from "./";
 
-type AnyCard = Card | ImageCard | Text | GithubIssue | JiraIssue;
+type AnyCard = Card | ImageCard | Text | GithubIssue | JiraIssue | ShapeCard | FreeDraw;
+
+type AnyLine = Line | JiraIssueLink;
 
 export type Board = {
     cards: {
@@ -19,9 +21,9 @@ export type Board = {
          */
         _index: Record<string, boolean>;
         /**
-         * @description Record<string, Line>
+         * @description Record<string, AnyLine>
          */
-        _items: Record<string, Line>;
+        _items: Record<string, AnyLine>;
     };
     /**
      * @description Record<string, string> - for every image card, it should map imageCard["dataBlob"] -> url of the image.

@@ -19,7 +19,7 @@
               "additionalProperties": {
                 "type": "boolean"
               },
-              "description": "Record<string, boolean> - for every card present on the board it should map card[\"id\"] -> true",
+              "description": "Record<string, AnyCard> - for every card present on the board it should map card[\"id\"] -> true",
               "type": "object"
             },
             "_items": {
@@ -39,6 +39,12 @@
                   },
                   {
                     "$ref": "#/definitions/JiraIssue"
+                  },
+                  {
+                    "$ref": "#/definitions/ShapeCard"
+                  },
+                  {
+                    "$ref": "#/definitions/FreeDraw"
                   }
                 ]
               },
@@ -64,9 +70,16 @@
             },
             "_items": {
               "additionalProperties": {
-                "$ref": "#/definitions/Line"
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/Line"
+                  },
+                  {
+                    "$ref": "#/definitions/JiraIssueLink"
+                  }
+                ]
               },
-              "description": "Record<string, Line>",
+              "description": "Record<string, AnyLine>",
               "type": "object"
             }
           },
@@ -183,6 +196,136 @@
       },
       "type": "object"
     },
+    "FreeDraw": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "default": "the unique color assigned to the current user",
+          "description": "the drawing line color.",
+          "type": "string"
+        },
+        "fillColor": {
+          "default": "transparent",
+          "type": "string"
+        },
+        "height": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "path": {
+          "description": "represents an array of Points with (x, y) coordinates",
+          "items": {
+            "items": [
+              {
+                "title": "x",
+                "type": "number"
+              },
+              {
+                "title": "y",
+                "type": "number"
+              }
+            ],
+            "maxItems": 2,
+            "minItems": 2,
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "thickness": {
+          "default": 1,
+          "maximum": 20,
+          "minimum": 1,
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "x": {
+          "description": "x position relative to (0, 0) which is the board center",
+          "type": "number"
+        },
+        "y": {
+          "description": "y position relative to (0, 0) which is the board center",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "x",
+        "y",
+        "width",
+        "height",
+        "path"
+      ],
+      "type": "object"
+    },
+    "GithubIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "default": "white (#FFF)",
+          "description": "the background color of the card.",
+          "type": "string"
+        },
+        "githubIssueKey": {
+          "additionalProperties": false,
+          "description": "required properties for githubIssue card.",
+          "properties": {
+            "issue_number": {
+              "type": "number"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repo": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "issue_number",
+            "owner",
+            "repo",
+            "title"
+          ],
+          "type": "object"
+        },
+        "height": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "textColor": {
+          "default": "black (#000)",
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        },
+        "x": {
+          "description": "x position relative to (0, 0) which is the board center",
+          "type": "number"
+        },
+        "y": {
+          "description": "y position relative to (0, 0) which is the board center",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "githubIssueKey",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "type": "object"
+    },
     "ImageCard": {
       "additionalProperties": false,
       "properties": {
@@ -226,6 +369,161 @@
         "y",
         "width",
         "height"
+      ],
+      "type": "object"
+    },
+    "JiraIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "default": "white (#FFF)",
+          "description": "the background color of the card.",
+          "type": "string"
+        },
+        "height": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "issueId": {
+          "description": "Jira issue id.",
+          "type": "string"
+        },
+        "siteId": {
+          "description": "Jira site id.",
+          "type": "string"
+        },
+        "textColor": {
+          "default": "black (#000)",
+          "type": "string"
+        },
+        "width": {
+          "type": "number"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "description": "y position relative to (0, 0) which is the board center",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "issueId",
+        "siteId",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "type": "object"
+    },
+    "JiraIssueLink": {
+      "additionalProperties": false,
+      "properties": {
+        "arrowLeft": {
+          "description": "if true, will display the arrow at the start of the line",
+          "type": "boolean"
+        },
+        "arrowRight": {
+          "description": "if true, will display the arrow at the end of the line",
+          "type": "boolean"
+        },
+        "color": {
+          "type": "string"
+        },
+        "curveType": {
+          "const": "curve-catmull-rom",
+          "description": "only applicable if type is \"curve\"",
+          "type": "string"
+        },
+        "end": {
+          "additionalProperties": false,
+          "description": "end point coordinates if the line does not start at a card, relative to (0,0)",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "type": "object"
+        },
+        "endCardId": {
+          "description": "id of the card where the line starts",
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "issueLinkId": {
+          "description": "Jira issue link id",
+          "type": "string"
+        },
+        "siteId": {
+          "description": "Jira site id",
+          "type": "string"
+        },
+        "start": {
+          "additionalProperties": false,
+          "description": "start point coordinates if the line does not start at a card, relative to (0,0)",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "type": "object"
+        },
+        "startCardId": {
+          "description": "id of the card where the line starts",
+          "type": "string"
+        },
+        "style": {
+          "default": "solid",
+          "enum": [
+            "solid",
+            "dashed",
+            "dotted"
+          ],
+          "type": "string"
+        },
+        "thickness": {
+          "default": 2,
+          "maximum": 20,
+          "minimum": 1,
+          "type": "number"
+        },
+        "type": {
+          "enum": [
+            "line",
+            "step",
+            "stepBefore",
+            "stepAfter",
+            "curve"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "issueLinkId",
+        "siteId",
+        "color",
+        "type"
       ],
       "type": "object"
     },
@@ -327,6 +625,150 @@
         "id",
         "color",
         "type"
+      ],
+      "type": "object"
+    },
+    "ShapeCard": {
+      "additionalProperties": false,
+      "properties": {
+        "borderColor": {
+          "default": "the background color of the card (property 'color') for Basic shapes; required black (#000) for Flowchart",
+          "description": "the color of the card's border.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "color": {
+          "default": "the unique color assigned to the current user",
+          "description": "the background color of the card. If you're looking for our 'sticky-note-like' yellow, it's #FFF1AB",
+          "type": "string"
+        },
+        "fontSize": {
+          "default": "null (which means auto)",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "height": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "shadowDisabled": {
+          "description": "disable card shadows, should be set to 'true' for better visual effect",
+          "type": "boolean"
+        },
+        "shape": {
+          "default": "true, can be only true",
+          "type": "boolean"
+        },
+        "shapeType": {
+          "anyOf": [
+            {
+              "enum": [
+                "square",
+                "triangle",
+                "circle",
+                "heart",
+                "rounded",
+                "trapez",
+                "diamond",
+                "star",
+                "arrowLeft",
+                "arrow",
+                "arrowUp",
+                "arrowDown"
+              ],
+              "type": "string"
+            },
+            {
+              "enum": [
+                "process",
+                "decision",
+                "terminator",
+                "predefinedProcess",
+                "document",
+                "multipleDocuments",
+                "manualInput",
+                "preparation",
+                "data",
+                "database",
+                "hardDisk",
+                "internalStorage",
+                "paperTape",
+                "manualOperation",
+                "delay",
+                "storedData",
+                "merge",
+                "connector",
+                "or",
+                "summingJunction",
+                "display",
+                "offPageLink",
+                "curlyBraceRight",
+                "curlyBraceLeft",
+                "braceLeft"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": "\"square\" (rectangle)",
+          "description": "the type of shape, can be one of the Basic shapes or the Flowchart shape"
+        },
+        "text": {
+          "description": "Plain string, does not allow for HTML tags",
+          "type": "string"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/TextAlign",
+          "default": 0,
+          "description": "0 = center, 1 = left, 2 = right"
+        },
+        "textColor": {
+          "default": "black (#000)",
+          "type": "string"
+        },
+        "textStyle": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CardTextStyle"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "textVerticalAlign": {
+          "$ref": "#/definitions/TextVerticalAlign",
+          "default": 0,
+          "description": "0 = middle, 1 = left, 2 = right"
+        },
+        "width": {
+          "type": "number"
+        },
+        "x": {
+          "description": "x position relative to (0, 0) which is the board center",
+          "type": "number"
+        },
+        "y": {
+          "description": "y position relative to (0, 0) which is the board center",
+          "type": "number"
+        }
+      },
+      "required": [
+        "height",
+        "id",
+        "shadowDisabled",
+        "shape",
+        "width",
+        "x",
+        "y"
       ],
       "type": "object"
     },

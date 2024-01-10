@@ -361,6 +361,161 @@ After conversion to Whiteboards.io schema:
 }
 ```
 
+### Shapes / Flowchart
+Sample "non-whiteboards.io" board:
+
+```json
+[
+  {
+    "id": "card1_id",
+    "type": "shape",
+    "shapeType": "heart",
+    "contents": "<p>Card text</p>",
+    "position": {
+      "x": 100,
+      "y": 200
+    },
+    "dimensions": {
+      "width": 400,
+      "height": 200
+    },
+    "card_styles": {
+      "backgroundColor": "#FDD0EC",
+      "borderColor": "#E774BB"
+    }
+  },
+  {
+    "id": "card2_id",
+    "type": "shape",
+    "shapeType": "database",
+    "contents": "<p>Database</p>",
+    "position": {
+      "x": 320,
+      "y": 150
+    },
+    "dimensions": {
+      "width": 400,
+      "height": 200
+    }
+  }
+]
+```
+After conversion to Whiteboards.io schema:
+
+```json
+{
+  "cards": {
+    "_index": {
+      "card1_id": true,
+      "card2_id": true
+    },
+    "_items": {
+      "card1_id": {
+        "id": "card1_id",
+        "borderColor": "#E774BB",
+        "color": "#FDD0EC",
+        "shape": true,
+        "shapeType": "heart",
+        "text": "Card text",
+        "shadowDisabled": true,
+        "x": 100,
+        "y": 200,
+        "width": 150,
+        "height": 150
+      },
+      "card2_id": {
+        "id": "card2_id",
+        "borderColor": "#000",
+        "shape": true,
+        "shapeType": "database",
+        "text": "Database",
+        "shadowDisabled": true,
+        "x": 320,
+        "y": 150,
+        "width": 150,
+        "height": 150
+      }
+    }
+  },
+  "lines": {},
+  "blobs": {}
+}
+```
+
+### Free draw (path card)
+Sample "non-whiteboards.io" board:
+
+```json
+[
+  {
+    "id": "card1_id",
+    "type": "path",
+    "path": [
+      { "x": 70, "y": 110},
+      { "x": 80, "y": 147},
+      { "x": 18, "y": 177},
+      { "x": 49, "y": 208},
+      { "x": 85, "y": 238},
+      { "x": 122, "y":  275},
+      { "x": 147, "y":  300},
+      { "x": 159, "y":  324},
+      { "x": 165, "y":  349},
+      { "x": 165, "y":  379},
+      { "x": 147, "y":  404}
+    ],
+    "position": {
+      "x": 100,
+      "y": 200
+    },
+    "dimensions": {
+      "width": 150,
+      "height": 150
+    },
+    "card_styles": {
+      "color": "#E774BB",
+      "thickness": 2
+    }
+  }
+]
+```
+After conversion to Whiteboards.io schema:
+
+```json
+{
+  "cards": {
+    "_index": {
+      "card1_id": true
+    },
+    "_items": {
+      "card1_id": {
+        "id": "card1_id",
+        "color": "#E774BB",
+        "path": [
+          [70, 110],
+          [80, 147],
+          [18, 177],
+          [49, 208],
+          [85, 238],
+          [122, 275],
+          [147, 300],
+          [159, 324],
+          [165, 349],
+          [165, 379],
+          [147, 404]
+        ],
+        "thickness": 2,
+        "x": 100,
+        "y": 200,
+        "width": 150,
+        "height": 150
+      }
+    }
+  },
+  "lines": {},
+  "blobs": {}
+}
+```
+
 ### Github Issues
 Sample "non-whiteboards.io" board:
 
@@ -368,7 +523,7 @@ Sample "non-whiteboards.io" board:
 [
   {
     "id": 111,
-    "type": "github",
+    "type": "github_issue",
     "issue_id": 32,
     "title": "Github issue",
     "author": "user_name",
@@ -422,11 +577,9 @@ Sample "non-whiteboards.io" board:
 [
   {
     "id": 111,
-    "type": "jira",
+    "type": "jira_issue",
     "issue_id": 10305,
     "site_id": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
-    "author": "user_name",
-    "repository": "repository_name",
     "position": {
       "x": 100,
       "y": 200
@@ -460,6 +613,98 @@ After conversion to Whiteboards.io schema:
   "lines": {
     "_index": {},
     "_items": {}
+  },
+  "blobs": {}
+}
+```
+
+### Jira Issue Links
+Sample "non-whiteboards.io" board:
+
+```json
+[
+  {
+    "id": "card1_id",
+    "type": "jira_issue",
+    "issueId": "10301",
+    "siteId": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
+    "otherProps": "omitted for readability"
+  },
+  {
+    "id": "card2_id",
+    "type": "jira_issue",
+    "issueId": "10305",
+    "siteId": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
+    "otherProps": "omitted for readability"
+  },
+  {
+    "id": "line_id",
+    "type": "issue_link",
+    "link_id": "10047",
+    "site_id": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
+    "connects": {
+      "start": "card1_id",
+      "end": "card2_id"
+    },
+    "arrow": {
+      "rightArrow": "visible",
+      "leftArrow": "none"
+    },
+    "strokeStyle": {
+      "width": 2,
+      "color": "#F61969",
+      "lineStyle": "solid"
+    }
+  }
+]
+```
+After conversion to Whiteboards.io schema:
+```json
+{
+  "cards": {
+    "_index": {
+      "card1_id": true,
+      "card2_id": true
+    },
+    "_items": {
+      "card1_id": {
+        "id": "card1_id",
+        "issueId": "10301",
+        "siteId": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
+        "x": 100,
+        "y": 200,
+        "width": 450,
+        "height": 150
+      },
+      "card2_id": {
+        "id": "card2_id",
+        "issueId": "10305",
+        "siteId": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
+        "x": 800,
+        "y": 100,
+        "width": 450,
+        "height": 150
+      }
+    }
+  },
+  "lines": {
+    "_index": {
+      "line_id": true
+    },
+    "_items": {
+      "line_id": {
+        "id": "line_id",
+        "issueLinkId": "10047",
+        "siteId": "xxxxxxxx-dfd6-lk7e-978c-d0ddf5s4eb35",
+        "startCardId": "card1_id",
+        "endCardId": "card2_id",
+        "arrowRight": true,
+        "color": "#F61969",
+        "style": "solid",
+        "curveType": "curve-catmull-rom",
+        "type": "curve"
+      }
+    }
   },
   "blobs": {}
 }
